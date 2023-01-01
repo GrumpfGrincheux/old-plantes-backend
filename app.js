@@ -19,6 +19,9 @@ app.get("/", (req, res) => {
 // Ici nous placerons nos points de terminaison
 
 require("./src/routes/login")(app);
+require("./src/routes/findByFamille")(app);
+require("./src/routes/findByGenre")(app);
+require("./src/routes/findByEspece")(app);
 
 // Gestion de l'erreur 404
 app.use(({ res }) => {
