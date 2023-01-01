@@ -21,9 +21,25 @@ module.exports = (app) => {
 				order: ["name"],
 				limit: limit,
 			}).then(({ count, rows }) => {
-				const message = `Il y a ${count} especes qui correspondent à votre recherche : ${name}`;
+				const message = `Il y a ${count} especès qui correspondent à votre recherche : ${name}`;
 				res.json({ message, data: rows });
 			});
+		} else if (req.query.id) {
+			const id = req.query.id;
+			return Espece.findByPk(req.params.id)
+				.then((espece) => {
+					if (espece === null) {
+						const message = `Erreur 404 : L'identifiant 'espece_id=${id}' n'est pas attribué.`;
+						return res.status(404).json({ message });
+					}
+					const message = "Une espèce a bien été trouvée.";
+					res.json({ message, data: espece });
+				})
+				.catch((error) => {
+					const message =
+						"Erreur 500 : L'espèce n'a pas pu être récupérée. Réessayez dans quelques instants";
+					res.status(500).json({ message, data: error });
+				});
 		}
 	});
 };
