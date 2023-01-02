@@ -4,8 +4,10 @@ const jwt = require("jsonwebtoken");
 const privateKey = require("../auth/private_key");
 const rateLimit = require("express-rate-limit");
 const registerLimiter = rateLimit({
-	message:
-		"Vous devez attendre une heure avant de réessayer de vous connecter : 3 tentatives infructueuses",
+	message: {
+		message:
+			"Vous devez attendre une heure avant de réessayer de vous connecter : 3 tentatives infructueuses",
+	},
 	windowMs: 60 * 60 * 1000, // 60 minutes
 	max: 3,
 });
