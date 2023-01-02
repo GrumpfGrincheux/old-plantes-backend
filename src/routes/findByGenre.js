@@ -24,22 +24,6 @@ module.exports = (app) => {
 				const message = `Il y a ${count} genres qui correspondent à votre recherche : ${name}`;
 				res.json({ message, data: rows });
 			});
-		} else if (req.query.id) {
-			const id = req.query.id;
-			return Genre.findByPk(req.params.id)
-				.then((genre) => {
-					if (genre === null) {
-						const message = `Erreur 404 : L'identifiant 'genre_id=${id}' n'est pas attribué.`;
-						return res.status(404).json({ message });
-					}
-					const message = "Un genre a bien été trouvé.";
-					res.json({ message, data: genre });
-				})
-				.catch((error) => {
-					const message =
-						"Erreur 500 : Le genre n'a pas pu être récupéré. Réessayez dans quelques instants";
-					res.status(500).json({ message, data: error });
-				});
 		}
 	});
 };
