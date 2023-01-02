@@ -6,18 +6,11 @@ const sequelize = require("./src/db/sequelize");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const csrf = require("csurf");
-const cookieParser = require("cookie-parser");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app
-	.use(bodyParser.json())
-	.use(cors())
-	.use(morgan())
-	.use(helmet())
-	.use(cookieParser());
+app.use(bodyParser.json()).use(cors()).use(morgan()).use(helmet());
 
 sequelize.initDb();
 

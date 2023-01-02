@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const privateKey = require("../auth/private_key");
 const rateLimit = require("express-rate-limit");
 const registerLimiter = rateLimit({
+	message:
+		"Vous devez attendre une heure avant de réessayer de vous connecter : 3 tentatives infructueuses",
 	windowMs: 60 * 60 * 1000, // 60 minutes
 	max: 3,
 });
@@ -16,6 +18,7 @@ module.exports = (app) => {
 					const message = "L'utilisateur demandé n'existe pas.";
 					return res.status(404).json({ message });
 				}
+
 				bcrypt
 					.compare(req.body.password, user.password)
 					.then((isPasswordValid) => {
