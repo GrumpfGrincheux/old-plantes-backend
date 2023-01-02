@@ -1,4 +1,4 @@
-const { Famille } = require("../db/sequelize");
+const { Espece, Genre, Famille } = require("../db/sequelize");
 const { Op } = require("sequelize");
 const auth = require("../auth/auth");
 
@@ -12,16 +12,23 @@ module.exports = (app) => {
 				return res.status(400).json({ message });
 			}
 			const limit = parseInt(req.query.limit) || 25;
-			return Famille.findAndCountAll({
-				where: {
-					name: {
-						[Op.like]: `%${name}%`,
+			return Espece.findAndCountAll({
+				include: [
+					{
+						model: Famille,
+						as: "famille",
+						where: {
+							name: {
+								[Op.like]: `%${name}%`,
+							},
+						},
 					},
-				},
+					Genre,
+				],
 				order: ["name"],
 				limit: limit,
 			}).then(({ count, rows }) => {
-				const message = `Il y a ${count} familles qui correspondent à votre recherche : ${name}`;
+				const message = `Il y a ${count} especès qui correspondent à votre recherche : ${name}`;
 				res.json({ message, data: rows });
 			});
 		}

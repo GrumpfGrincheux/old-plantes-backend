@@ -2,9 +2,14 @@ const { User } = require("../db/sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const privateKey = require("../auth/private_key");
+const rateLimit = require("express-rate-limit");
+const registerLimiter = rateLimit({
+	windowMs: 60 * 60 * 1000, // 60 minutes
+	max: 3,
+});
 
 module.exports = (app) => {
-	app.post("/api/login", (req, res) => {
+	app.post("/api/login", registerLimiter, (req, res) => {
 		User.findOne({ where: { username: req.body.username } })
 			.then((user) => {
 				if (!user) {
@@ -26,7 +31,8 @@ module.exports = (app) => {
 
 						const message = `L'utilisateur a été connecté avec succès.`;
 						return res.json({ message, data: user, token });
-					});
+					})
+					.catch((error) => console.log(error));
 			})
 			.catch((error) => {
 				const message = `L'utilisateur n'a pas pu être connecté, réessayez dans quelques instants.`;

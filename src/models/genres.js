@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
 						args: [1, 25],
 						msg: "La longeur du nom doit être comprise entre 1 et 25 caractères.",
 					},
-					isAlpha: {
+					is: {
+						args: /^[A-Z]{1}[a-z]+$/g,
 						msg: "Le nom ne peut contenir que des lettres.",
 					},
 				},

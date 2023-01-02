@@ -1,9 +1,9 @@
-const { Espece, Genre, Famille } = require("../db/sequelize");
+const { Espece } = require("../db/sequelize");
 const { Op } = require("sequelize");
 const auth = require("../auth/auth");
 
 module.exports = (app) => {
-	app.get("/find/especes", auth, (req, res) => {
+	app.get("/find/all", auth, (req, res) => {
 		if (req.query.name) {
 			const name = req.query.name;
 			if (name.length < 2) {
@@ -18,7 +18,7 @@ module.exports = (app) => {
 						[Op.like]: `%${name}%`,
 					},
 				},
-				include: [Genre, Famille],
+				include: ["genre", "famille"],
 				order: ["name"],
 				limit: limit,
 			}).then(({ count, rows }) => {
