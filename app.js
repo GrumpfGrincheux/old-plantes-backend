@@ -39,7 +39,6 @@ require("./src/routes/login")(app);
 require("./src/routes/findByFamille")(app);
 require("./src/routes/findByGenre")(app);
 require("./src/routes/findByEspece")(app);
-require("./src/routes/findByAll")(app);
 require("./src/routes/isUserLoggedIn")(app);
 
 // Gestion de l'erreur 404
