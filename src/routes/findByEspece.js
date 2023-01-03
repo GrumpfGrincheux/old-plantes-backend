@@ -1,9 +1,9 @@
 const { Espece, Genre, Famille } = require("../db/sequelize");
 const { Op } = require("sequelize");
-// const auth = require("../auth/auth");
+const auth = require("../auth/auth");
 
 module.exports = (app) => {
-	app.post("/find/especes", (req, res) => {
+	app.post("/find/especes", auth, (req, res) => {
 		if (req.body.search != "") {
 			const name = req.body.search;
 			if (name.length < 2) {

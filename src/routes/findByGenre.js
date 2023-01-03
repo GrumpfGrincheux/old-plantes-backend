@@ -1,9 +1,9 @@
 const { Espece, Genre, Famille } = require("../db/sequelize");
 const { Op } = require("sequelize");
-// const auth = require("../auth/auth");
+const auth = require("../auth/auth");
 
 module.exports = (app) => {
-	app.get("/find/genres", (req, res) => {
+	app.get("/find/genres", auth, (req, res) => {
 		if (req.query.name) {
 			const name = req.query.name;
 			if (name.length < 2) {
