@@ -69,4 +69,5 @@ module.exports = {
 	Genre,
 	Espece,
 	User,
+	sequelize,
 };

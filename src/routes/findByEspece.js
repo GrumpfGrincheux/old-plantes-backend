@@ -1,11 +1,11 @@
 const { Espece, Genre, Famille } = require("../db/sequelize");
 const { Op } = require("sequelize");
-const auth = require("../auth/auth");
+// const auth = require("../auth/auth");
 
 module.exports = (app) => {
-	app.get("/find/especes", auth, (req, res) => {
-		if (req.query.name) {
-			const name = req.query.name;
+	app.post("/find/especes", (req, res) => {
+		if (req.body.search != "") {
+			const name = req.body.search;
 			if (name.length < 2) {
 				const message =
 					"Le terme de recherche doit contenir au moins 2 caractères.";
@@ -18,7 +18,7 @@ module.exports = (app) => {
 						[Op.like]: `%${name}%`,
 					},
 				},
-				include: [Genre, Famille],
+				include: ["genre", "famille"],
 				order: ["name"],
 				limit: limit,
 			}).then(({ count, rows }) => {
