@@ -5,17 +5,13 @@ const bodyParser = require("body-parser");
 const sequelize = require("./src/db/sequelize");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const cors = require("cors");
+// const session = require("express-session");
+// const csurf = require("csurf");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const cors = require("cors");
-// const corsOptions = {
-// 	origin: "http://127.0.0.1:5500",
-// 	optionsSuccessStatus: 200,
-// };
-
-// Add Access Control Allow Origin headers
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
 	res.header(
@@ -31,6 +27,19 @@ app
 	.use(morgan())
 	.use(helmet())
 	.use(favicon("./favicon.ico"));
+// .use(
+// 	session({
+// 		resave: true,
+// 		secret: "notagoodsecret",
+// 		saveUninitialized: true,
+// 		cookie: { httpOnly: true },
+// 	}),
+// )
+// .use(function (req, res, next) {
+// 	res.locals.csrftoken = req.session._csrf;
+// 	next();
+// })
+// .use(csurf());
 
 sequelize.initDb();
 
