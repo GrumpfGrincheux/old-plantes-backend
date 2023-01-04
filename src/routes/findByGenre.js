@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 const auth = require("../auth/auth");
 
 module.exports = (app) => {
-	app.get("/find/genres", auth, (req, res) => {
+	app.post("/find/genres", auth, (req, res) => {
 		if (req.query.name) {
 			const name = req.query.name;
 			if (name.length < 2) {

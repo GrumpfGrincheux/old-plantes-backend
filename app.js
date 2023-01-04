@@ -24,7 +24,11 @@ app.use((req, res, next) => {
 app
 	.use(bodyParser.json())
 	.use(cors())
-	.use(morgan())
+	.use(
+		morgan(
+			":method :url :status :res[content-length] - :response-time ms :date[web]",
+		),
+	)
 	.use(helmet())
 	.use(favicon("./favicon.ico"));
 // .use(
@@ -53,6 +57,9 @@ require("./src/routes/login")(app);
 require("./src/routes/findByFamille")(app);
 require("./src/routes/findByGenre")(app);
 require("./src/routes/findByEspece")(app);
+require("./src/routes/createFamille")(app);
+require("./src/routes/createGenre")(app);
+require("./src/routes/createEspece")(app);
 require("./src/routes/verifyToken")(app);
 
 // Gestion de l'erreur 404

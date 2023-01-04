@@ -1,4 +1,4 @@
-const { Famille } = require("../db/sequelize");
+const { Espece } = require("../db/sequelize");
 const {
 	ValidationError,
 	Sequelize,
@@ -7,11 +7,11 @@ const {
 const auth = require("../auth/auth");
 
 module.exports = (app) => {
-	app.post("/create/famille", auth, (req, res) => {
-		Famille.create(req.body)
-			.then((famille) => {
-				const message = `La famille ${req.body.name} a bien été ajoutée.`;
-				res.json({ message, data: famille });
+	app.post("/create/espece", auth, (req, res) => {
+		Espece.create(req.body)
+			.then((espece) => {
+				const message = `L'espèce ${req.body.name} a bien été ajoutée.`;
+				res.json({ message, data: espece });
 			})
 			.catch((error) => {
 				if (error instanceof ValidationError) {
@@ -21,7 +21,7 @@ module.exports = (app) => {
 					return res.status(400).json({ message: error.message, data: error });
 				}
 				const message =
-					"Erreur 500 : La famille n'a pas pu être ajoutée. Réessayez dans quelques instants";
+					"Erreur 500 : L'espèce n'a pas pu être ajoutée. Réessayez dans quelques instants";
 				res.status(500).json({ message, data: error });
 			});
 	});
