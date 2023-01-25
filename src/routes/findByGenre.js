@@ -12,23 +12,17 @@ module.exports = (app) => {
 				return res.status(400).json({ message });
 			}
 			const limit = parseInt(req.query.limit) || 25;
-			return Espece.findAndCountAll({
-				include: [
-					{
-						model: Genre,
-						as: "genre",
-						where: {
-							name: {
-								[Op.like]: `%${name}%`,
-							},
-						},
+			return Genre.findAndCountAll({
+				where: {
+					name: {
+						[Op.like]: `%${name}%`,
 					},
-					"famille",
-				],
+				},
+				include: ["famille"],
 				order: ["name"],
 				limit: limit,
 			}).then(({ count, rows }) => {
-				const message = `Il y a ${count} especès qui correspondent à votre recherche : ${name}`;
+				const message = `Il y a ${count} genres qui correspondent à votre recherche : ${name}`;
 				res.json({ message, data: rows });
 			});
 		}
